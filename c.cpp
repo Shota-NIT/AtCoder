@@ -2,36 +2,32 @@
 
 using namespace std;
 
-#define MAX_N 100000
+#define MAX_N 200000
 
 // 入力
-int N, M;
-
-const int MOD = 1e9 + 7;
-
-long long mem[MAX_N + 1];
-
-long long fact(long long i) {
-    if (i == 1) {
-        return 1;
-    } else if (mem[i] != 0) {
-        return mem[i];
-    } else {
-        return mem[i] = (i * fact(i - 1)) % MOD;
-    }
-}
+int N;
+int a[MAX_N];
 
 int main(void) {
-    cin >> N >> M;
-
-    if (abs(N - M) > 1) {
-        cout << "0" << endl;
-        return 0;
-    } else if (N == M) {
-        cout << (fact(N) * fact(M) * 2) % MOD << endl;
-    } else {
-        cout << (fact(N) * fact(M)) % MOD << endl;
+    cin >> N;
+    for (int i = 0; i < N; ++i) {
+        cin >> a[i];
     }
+
+    long long sunuke_sum = 0;
+    long long araiguma_sum = 0;
+    for (int i = 0; i < N; ++i) {
+        araiguma_sum += a[i];
+    }
+    long long dif_of_abs = 1e15;
+
+    for (int i = 0; i < N - 1; ++i) {
+        sunuke_sum += a[i];
+        araiguma_sum -= a[i];
+        dif_of_abs = min(dif_of_abs, abs(sunuke_sum - araiguma_sum));
+    }
+
+    cout << dif_of_abs << endl;
 
     return 0;
 }
